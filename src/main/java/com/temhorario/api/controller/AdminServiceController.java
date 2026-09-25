@@ -54,7 +54,7 @@ public class AdminServiceController {
         return ResponseEntity.ok(new ServiceDetailsDTO(service));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id){
         var service = repository.getReferenceById(id);

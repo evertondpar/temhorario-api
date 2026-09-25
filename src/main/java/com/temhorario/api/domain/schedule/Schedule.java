@@ -31,4 +31,11 @@ public class Schedule {
     private LocalTime endTime;
 
     private Boolean active;
+
+    public Schedule(CreateScheduleDTO data, Collaborator collaborator){
+        this.collaborator = collaborator;
+        this.dayOfWeek = data.dayOfWeek();
+        this.startTime = data.startTime();
+        this.endTime = data.endTime();
+    }
 }
