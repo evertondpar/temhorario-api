@@ -2,6 +2,9 @@ package com.temhorario.api.domain.client;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<Client, Long> {
+import java.util.Optional;
 
+
+public interface ClientRepository extends JpaRepository<Client, Long> {
+    Optional<Client> findByPhone(String phone);
 }

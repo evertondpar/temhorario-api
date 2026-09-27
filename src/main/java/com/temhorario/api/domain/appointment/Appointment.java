@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Table(name = "appointments")
 @Entity(name = "Appointment")
@@ -36,4 +37,20 @@ public class Appointment {
 
     @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
+
+    public Appointment(Client client, Collaborator collaborator, Service service, LocalDateTime dateTime, AppointmentStatus appointmentStatus){
+        this.client = client;
+        this.collaborator = collaborator;
+        this.service = service;
+        this.dateTime = dateTime;
+        this.appointmentStatus = appointmentStatus;
+    }
+
+    public LocalTime getStartTime() {
+        return this.dateTime.toLocalTime();
+    }
+
+    public LocalTime getEndTime() {
+        return this.dateTime.toLocalTime().plusMinutes(this.service.getDurationInMinutes());
+    }
 }
