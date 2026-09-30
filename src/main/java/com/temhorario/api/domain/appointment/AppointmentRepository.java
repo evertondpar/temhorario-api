@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     List<Appointment> findAllByCollaboratorIdAndDateTimeBetween(Long collaboratorId, LocalDateTime startOfDay, LocalDateTime endOfDay);
 
+    boolean existsByCollaboratorIdAndDateTime(Long collaboratorId, LocalDateTime appointmentTime);
 }

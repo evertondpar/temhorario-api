@@ -54,6 +54,10 @@ public class AppointmentService {
                 });
 
         Appointment appointment = new Appointment(client, collaborator, service, data.appointmentTime(), AppointmentStatus.SCHEDULED);
+        boolean isOcupado = repository.existsByCollaboratorIdAndDateTime(data.collaboratorId(), data.appointmentTime());
+        if (isOcupado) {
+            throw new RuntimeException("Este horário já está reservado.");
+        }
         appointment = repository.save(appointment);
         return new AppointmentDetailsDTO(appointment);
     }

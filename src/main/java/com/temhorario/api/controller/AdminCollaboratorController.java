@@ -1,10 +1,7 @@
 package com.temhorario.api.controller;
 
 import com.temhorario.api.domain.collaborator.*;
-import com.temhorario.api.domain.schedule.CreateScheduleDTO;
-import com.temhorario.api.domain.schedule.Schedule;
-import com.temhorario.api.domain.schedule.ScheduleDetailsDTO;
-import com.temhorario.api.domain.schedule.ScheduleRepository;
+import com.temhorario.api.domain.schedule.*;
 import com.temhorario.api.domain.service.Service;
 import com.temhorario.api.domain.service.ServiceRepository;
 import jakarta.validation.Valid;
@@ -22,10 +19,12 @@ public class AdminCollaboratorController {
     private final CollaboratorRepository repository;
     private final ServiceRepository serviceRepository;
     private final ScheduleRepository scheduleRepository;
-    public AdminCollaboratorController(CollaboratorRepository repository, ServiceRepository serviceRepository, ScheduleRepository scheduleRepository){
+    private final ScheduleService scheduleService;
+    public AdminCollaboratorController(CollaboratorRepository repository, ServiceRepository serviceRepository, ScheduleRepository scheduleRepository, ScheduleService scheduleService){
         this.repository = repository;
         this.serviceRepository = serviceRepository;
         this.scheduleRepository = scheduleRepository;
+        this.scheduleService = scheduleService;
     }
 
     @PostMapping
@@ -38,6 +37,8 @@ public class AdminCollaboratorController {
 
         Collaborator collaborator = new Collaborator(data, services);
         repository.save(collaborator);
+
+        scheduleService.createCompleteSchedule(collaborator);
 
         URI uri = uriBuilder.path("/api/admin/collaborators/{id}").buildAndExpand(collaborator.getId()).toUri();
         return ResponseEntity.created(uri).body(new CollaboratorDetailsDTO(collaborator));
